@@ -1,35 +1,56 @@
+"use client";
+import { useEffect, useState } from "react";
 import MovieCard from "./Card";
-
-const dumy = {
-  rank: 1,
-  title: "The Shawshank Redemption",
-  description:
-    "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
-  image:
-    "https://m.media-amazon.com/images/M/MV5BMDFkYTc0MGEtZmNhMC00ZDIzLWFmNTEtODM1ZmRlYWMwMWFmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_QL75_UX380_CR0,1,380,562_.jpg",
-  big_image:
-    "https://m.media-amazon.com/images/M/MV5BMDFkYTc0MGEtZmNhMC00ZDIzLWFmNTEtODM1ZmRlYWMwMWFmXkEyXkFqcGdeQXVyMTMxODk2OTU@",
-  genre: ["Drama"],
-  thumbnail:
-    "https://m.media-amazon.com/images/M/MV5BMDFkYTc0MGEtZmNhMC00ZDIzLWFmNTEtODM1ZmRlYWMwMWFmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_UY67_CR0,0,45,67_AL_.jpg",
-  rating: "9.3",
-  id: "top1",
-  year: 1994,
-  imdbid: "tt0111161",
-  imdb_link: "https://www.imdb.com/title/tt0111161",
-};
+import { Movie } from "@/types";
+import axios from "axios";
 
 const Movies = ({ searchValue }: { searchValue: string }) => {
+  const [moviesList, setMoviesList] = useState<Movie[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        const response = await axios.get(
+          "https://imdb-top-100-movies.p.rapidapi.com/",
+          {
+            headers: {
+              "x-rapidapi-key": "ad7a1bb18cmshf62764ce6d53b7ep13126cjsn7968737efc4e",
+              "x-rapidapi-host": "imdb-top-100-movies.p.rapidapi.com",
+            },
+          }
+        );
+
+        if (response.status !== 200) {
+          throw new Error("Network response was not ok");
+        }
+
+        const data: Movie[] = response.data;
+        setMoviesList(data);
+      } catch (error: any) {
+        setError(error.message);
+      }
+    };
+
+    fetchMovies();
+  }, []);
+
+  if (error) return <div>Error: {error}</div>;
+  if (!moviesList.length) return <div>Loading...</div>;
+
   return (
     <div className="flex flex-col items-center space-x-3 space-y-5  sm:grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-      <MovieCard
-        title={dumy.title}
-        thumbnail={dumy.big_image}
-        imdb_link={dumy.imdb_link}
-        rank={dumy.rank}
-        rating={dumy.rating}
-        year={dumy.year}
-      />
+      {moviesList.map((movie, index) => (
+        <MovieCard
+          key={index}
+          title={movie.title}
+          thumbnail={movie.image}
+          imdb_link={movie.imdb_link}
+          rank={movie.rank}
+          rating={movie.rating}
+          year={movie.year}
+        />
+      ))}
     </div>
   );
 };

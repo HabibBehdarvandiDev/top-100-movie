@@ -2,9 +2,6 @@ import { MovieCart } from "@/types";
 import { Card, CardBody, Divider } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
-import RankingIcon from "./icons/RankingIcon";
-import Calendar01Icon from "./icons/Calendar01Icon";
-import StarIcon from "./icons/StarIcon";
 
 const MovieCard = ({
   rank,
