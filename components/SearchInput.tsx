@@ -15,7 +15,7 @@ const SearchInput = ({
       startContent={
         <Search01Icon className="w-6 h-6 text-zinc-400 placeholder:text-zinc-300" />
       }
-      placeholder="ex: interstelar"
+      placeholder="ex: interstellar"
       onChange={(e) => setSearchValue(e.target.value)}
       className="max-w-screen-sm"
     />
