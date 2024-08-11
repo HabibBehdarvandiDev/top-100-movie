@@ -1,6 +1,8 @@
+import ThemeSwitcher from "@/components/ThemeSwitcher";
 
 export default function Home() {
   return (
-    <main></main>
+    <main>
+    </main>
   );
 }
