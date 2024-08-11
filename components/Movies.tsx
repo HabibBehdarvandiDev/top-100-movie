@@ -15,7 +15,8 @@ const Movies = ({ searchValue }: { searchValue: string }) => {
           "https://imdb-top-100-movies.p.rapidapi.com/",
           {
             headers: {
-              "x-rapidapi-key": "ad7a1bb18cmshf62764ce6d53b7ep13126cjsn7968737efc4e",
+              "x-rapidapi-key":
+                "ad7a1bb18cmshf62764ce6d53b7ep13126cjsn7968737efc4e",
               "x-rapidapi-host": "imdb-top-100-movies.p.rapidapi.com",
             },
           }
@@ -35,22 +36,32 @@ const Movies = ({ searchValue }: { searchValue: string }) => {
     fetchMovies();
   }, []);
 
+  const filteredMovies = searchValue
+    ? moviesList.filter((movie) =>
+        movie.title.toLowerCase().includes(searchValue.toLowerCase())
+      )
+    : moviesList;
+
   if (error) return <div>Error: {error}</div>;
   if (!moviesList.length) return <div>Loading...</div>;
 
   return (
     <div className="flex flex-col items-center space-x-3 space-y-5  sm:grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-      {moviesList.map((movie, index) => (
-        <MovieCard
-          key={index}
-          title={movie.title}
-          thumbnail={movie.image}
-          imdb_link={movie.imdb_link}
-          rank={movie.rank}
-          rating={movie.rating}
-          year={movie.year}
-        />
-      ))}
+      {filteredMovies.length > 0 ? (
+        filteredMovies.map((movie, index) => (
+          <MovieCard
+            key={index}
+            title={movie.title}
+            thumbnail={movie.image}
+            imdb_link={movie.imdb_link}
+            rank={movie.rank}
+            rating={movie.rating}
+            year={movie.year}
+          />
+        ))
+      ) : (
+        <div>No movies found</div>
+      )}
     </div>
   );
 };
