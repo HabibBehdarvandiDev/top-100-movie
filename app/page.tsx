@@ -3,7 +3,7 @@ import ThemeSwitcher from "@/components/ThemeSwitcher";
 
 export default function Home() {
   return (
-    <main>
+    <main className="w-screen h-full">
       <Container />
     </main>
   );

@@ -17,6 +17,7 @@ const SearchInput = ({
       }
       placeholder="ex: interstelar"
       onChange={(e) => setSearchValue(e.target.value)}
+      className="max-w-screen-sm"
     />
   );
 };
