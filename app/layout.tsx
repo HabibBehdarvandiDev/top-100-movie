@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import { NextUIProvider } from "@nextui-org/react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
+import Header from "@/components/Header";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -24,6 +25,7 @@ export default function RootLayout({
       <body className={poppins.className}>
         <NextUIProvider>
           <NextThemesProvider attribute="class" defaultTheme="light">
+            <Header />
             {children}
           </NextThemesProvider>
         </NextUIProvider>
